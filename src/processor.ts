@@ -1,5 +1,5 @@
 import {Store, TypeormDatabase} from '@subsquid/typeorm-store'
-import {EvmBatchProcessor, LogHandlerContext} from '@subsquid/evm-processor'
+import {EvmBatchProcessor, LogHandlerContext} from '@belopash/evm-processor'
 import {erc721handleTransfer} from './mappings'
 import {saveAll} from './utils/entitiesManager'
 import * as erc721 from './abi/erc721'
@@ -20,9 +20,9 @@ const processor = new EvmBatchProcessor()
             evmLog: {
                 topics: true,
                 data: true,
-                transaction: {
-                    hash: true,
-                },
+            },
+            transaction: {
+                hash: true,
             },
         },
     })
@@ -35,7 +35,7 @@ processor.run(database, async (ctx) => {
                     await erc721handleTransfer({
                         ...ctx,
                         block: block.header,
-                        evmLog: item.evmLog,
+                        ...item,
                     })
                 }
             }

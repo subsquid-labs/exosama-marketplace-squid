@@ -4,12 +4,12 @@ import * as erc721 from '../abi/erc721'
 import {ERC721contracts, ERC721owners, ERC721tokens, ERC721transfers} from '../utils/entitiesManager'
 import {ERC721TOKEN_RELATIONS, NULL_ADDRESS} from '../utils/config'
 import {getTokenId} from '../helpers'
-import {LogHandlerContext} from '@subsquid/evm-processor/lib/interfaces/dataHandlers'
+import {LogHandlerContext} from '@belopash/evm-processor/lib/interfaces/dataHandlers'
 
 export async function erc721handleTransfer(
-    ctx: LogHandlerContext<Store, {evmLog: {topics: true; data: true; transaction: {hash: true}}}>
+    ctx: LogHandlerContext<Store, {evmLog: {topics: true; data: true}; transaction: {hash: true}}>
 ): Promise<void> {
-    const {evmLog, block} = ctx
+    const {evmLog, transaction, block} = ctx
     const contractAddress = evmLog.address.toLowerCase() as string
     const contractAPI = new erc721.Contract(ctx, contractAddress)
     // const contractAPI = new ethers.Contract(
@@ -89,13 +89,13 @@ export async function erc721handleTransfer(
 
     ERC721tokens.save(token)
 
-    const transferId = evmLog.transaction.hash.concat('-'.concat(tokenId)).concat('-'.concat(evmLog.index.toString()))
+    const transferId = transaction.hash.concat('-'.concat(tokenId)).concat('-'.concat(evmLog.index.toString()))
 
     const transfer = new ERC721Transfer({
         id: transferId,
         block: BigInt(block.height),
         timestamp: BigInt(block.timestamp) / BigInt(1000),
-        transactionHash: evmLog.transaction.hash,
+        transactionHash: transaction.hash,
         from: oldOwner,
         to: owner,
         token,
