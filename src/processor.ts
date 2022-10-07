@@ -12,7 +12,7 @@ const processor = new EvmBatchProcessor()
     .setBlockRange({from: 15584000})
     .setDataSource({
         archive: 'https://eth-test.archive.subsquid.io',
-        chain: 'wss://mainnet.infura.io/ws/v3/c8458927a73148cfab30014f6e422bb3',
+        chain: 'ws://195.201.56.33:8545',
     })
     .addLog(config.EXOSAMA_ADDRESS, {
         filter: [[erc721.events['Transfer(address,address,uint256)'].topic]],

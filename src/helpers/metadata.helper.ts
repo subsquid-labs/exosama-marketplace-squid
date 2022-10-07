@@ -2,7 +2,7 @@ import https from 'https'
 import assert from 'assert'
 import {Store} from '@subsquid/typeorm-store'
 import Axios from 'axios'
-import {CommonHandlerContext} from '@belopash/evm-processor'
+import {BlockHandlerContext} from '@belopash/evm-processor'
 import {BigNumber} from 'ethers'
 import {Attribute, ERC1155Contract, ERC1155Token, ERC721Contract, ERC721Token, Metadata} from '../model'
 import {IRawMetadata} from '../types/custom/metadata'
@@ -60,7 +60,7 @@ export const sanitizeIpfsUrl = (ipfsUrl: string): string => {
     return ipfsUrl
 }
 
-export const fetchMetadata = async (ctx: CommonHandlerContext<Store>, url: string): Promise<IRawMetadata | null> => {
+export const fetchMetadata = async (ctx: BlockHandlerContext<Store>, url: string): Promise<IRawMetadata | null> => {
     const properUrl = sanitizeIpfsUrl(url)
     if (isUrlBanned(properUrl)) {
         ctx.log.warn(`[IPFS] SKIP DUE TO TRIES LIMIT ${properUrl}`)
@@ -80,7 +80,7 @@ export const fetchMetadata = async (ctx: CommonHandlerContext<Store>, url: strin
 }
 
 export async function parseMetadata(
-    ctx: CommonHandlerContext<Store>,
+    ctx: BlockHandlerContext<Store>,
     url: string,
     metaId: string
 ): Promise<Metadata | undefined> {
@@ -124,7 +124,7 @@ interface ContractMetadata {
 }
 
 export const fetchContractMetadata = async (
-    ctx: CommonHandlerContext<Store>,
+    ctx: BlockHandlerContext<Store>,
     url: string
 ): Promise<ContractMetadata | undefined> => {
     const properUrl = sanitizeIpfsUrl(url)
@@ -153,10 +153,10 @@ export const fetchContractMetadata = async (
 }
 
 export async function batchEntityMapper<T extends EntityWithId>(
-    ctx: CommonHandlerContext<Store>,
+    ctx: BlockHandlerContext<Store>,
     manager: EntitiesCache<T>,
     buffer_: Array<T>,
-    updater: (ctx: CommonHandlerContext<Store>, entity: T, manager: EntitiesCache<T>) => Promise<void>,
+    updater: (ctx: BlockHandlerContext<Store>, entity: T, manager: EntitiesCache<T>) => Promise<void>,
     batchSize: number
 ): Promise<void> {
     for (let i = 0; i < buffer_.length; i += batchSize) {
@@ -169,7 +169,7 @@ export async function batchEntityMapper<T extends EntityWithId>(
 }
 
 async function get1155ContractUri(
-    ctx: CommonHandlerContext<Store>,
+    ctx: BlockHandlerContext<Store>,
     entity: ERC1155Contract,
     manager: EntitiesCache<ERC1155Contract>
 ): Promise<void> {
@@ -183,7 +183,7 @@ async function get1155ContractUri(
 }
 
 async function get721ContractUri(
-    ctx: CommonHandlerContext<Store>,
+    ctx: BlockHandlerContext<Store>,
     entity: ERC721Contract,
     manager: EntitiesCache<ERC721Contract>
 ): Promise<void> {
@@ -204,7 +204,7 @@ async function get721ContractUri(
 }
 
 async function get721TokenUri(
-    ctx: CommonHandlerContext<Store>,
+    ctx: BlockHandlerContext<Store>,
     entity: ERC721Token,
     manager: EntitiesCache<ERC721Token>
 ): Promise<void> {
@@ -225,7 +225,7 @@ async function get721TokenUri(
 }
 
 async function get1155TokenUri(
-    ctx: CommonHandlerContext<Store>,
+    ctx: BlockHandlerContext<Store>,
     entity: ERC1155Token,
     manager: EntitiesCache<ERC1155Token>
 ): Promise<void> {
@@ -239,7 +239,7 @@ async function get1155TokenUri(
 }
 
 async function fillTokenMetadata<T extends ERC1155Token | ERC721Token>(
-    ctx: CommonHandlerContext<Store>,
+    ctx: BlockHandlerContext<Store>,
     entity: T,
     manager: EntitiesCache<T>
 ): Promise<void> {
@@ -256,7 +256,7 @@ async function fillTokenMetadata<T extends ERC1155Token | ERC721Token>(
     }
 }
 async function fillContractMetadata<T extends ERC1155Contract | ERC721Contract>(
-    ctx: CommonHandlerContext<Store>,
+    ctx: BlockHandlerContext<Store>,
     entity: T,
     manager: EntitiesCache<T>
 ): Promise<void> {
@@ -283,7 +283,7 @@ function exportUpdateBuffer(manager: EntitiesCache<any>): void {
     })
 }
 
-export async function updateAllMetadata(ctx: CommonHandlerContext<Store>): Promise<void> {
+export async function updateAllMetadata(ctx: BlockHandlerContext<Store>): Promise<void> {
     exportUpdateBuffer(ERC721contracts)
     exportUpdateBuffer(ERC721tokens)
     await batchEntityMapper(

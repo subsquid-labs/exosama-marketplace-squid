@@ -1,13 +1,13 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import { CommonHandlerContext } from '@belopash/evm-processor'
+import { BlockHandlerContext } from '@belopash/evm-processor'
 import { Store } from '@subsquid/typeorm-store'
 import { ERC721Owner, ERC1155Owner } from '../model'
 import { ERC721owners, ERC1155owners } from '../utils/entitiesManager'
 
 
 export async function getOrCreateERC721Owner(
-  ctx: CommonHandlerContext<Store>,
+  ctx: BlockHandlerContext<Store>,
   id: string
 ): Promise<ERC721Owner> {
   let owner = await ERC721owners.get(ctx.store, ERC721Owner, id)
@@ -22,7 +22,7 @@ export async function getOrCreateERC721Owner(
 }
 
 export async function getOrCreateERC1155Owner(
-  ctx: CommonHandlerContext<Store>,
+  ctx: BlockHandlerContext<Store>,
   id: string
 ): Promise<ERC1155Owner> {
   let owner = await ERC1155owners.get(ctx.store, ERC1155Owner, id)
