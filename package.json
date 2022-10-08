@@ -5,7 +5,7 @@
     "build": "rm -rf lib && tsc",
     "db:migrate": "npx squid-typeorm-migration apply",
     "processor:start": "node lib/processor.js",
-    "query-node:start": "squid-graphql-server --max-response-size 10000 --dumb-cache in-memory --dumb-cache-ttl 1000 --dumb-cache-size 100 --dumb-cache-max-age 1000",
+    "query-node:start": "squid-graphql-server --max-response-size 10000 --dumb-cache in-memory --dumb-cache-ttl 10000 --dumb-cache-size 200 --dumb-cache-max-age 10000",
     "lint": "eslint . --ext .ts --ignore-path .gitignore --ignore-pattern src/abi/**/*  --fix"
   },
   "dependencies": {
