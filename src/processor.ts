@@ -1,5 +1,5 @@
 import { Store, TypeormDatabase } from '@subsquid/typeorm-store'
-import { EvmBatchProcessor, LogHandlerContext } from '@belopash/evm-processor'
+import { assertNotNull, EvmBatchProcessor, LogHandlerContext } from '@subsquid/evm-processor'
 import {
   erc721handleTransfer,
   handleContractUri,
@@ -15,8 +15,8 @@ const database = new TypeormDatabase()
 const processor = new EvmBatchProcessor()
   .setBlockRange({ from: 15584000 })
   .setDataSource({
-    archive: 'https://eth-test.archive.subsquid.io',
-    chain: 'ws://195.201.56.33:8545',
+    archive: assertNotNull(process.env.ETH_ARCHIVE),
+    chain: assertNotNull(process.env.CHAIN_NODE),
   })
   .addLog(config.EXOSAMA_ADDRESS, {
     filter: [

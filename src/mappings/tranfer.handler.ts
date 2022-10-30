@@ -14,7 +14,7 @@ import {
 } from '../utils/entitiesManager'
 import { ERC721TOKEN_RELATIONS, NULL_ADDRESS } from '../utils/config'
 import { getTokenId } from '../helpers'
-import { LogHandlerContext } from '@belopash/evm-processor/lib/interfaces/dataHandlers'
+import { LogHandlerContext } from '@subsquid/evm-processor/lib/interfaces/dataHandlers'
 
 export async function erc721handleTransfer(
   ctx: LogHandlerContext<

@@ -1,4 +1,4 @@
-import { LogHandlerContext } from '@belopash/evm-processor'
+import { LogHandlerContext } from '@subsquid/evm-processor'
 import { Store } from '@subsquid/typeorm-store'
 import { ERC721tokens } from '../utils/entitiesManager'
 

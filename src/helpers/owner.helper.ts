@@ -1,6 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import { BlockHandlerContext } from '@belopash/evm-processor'
+import { BlockHandlerContext } from '@subsquid/evm-processor'
 import { Store } from '@subsquid/typeorm-store'
 import { ERC721Owner } from '../model'
 import { ERC721owners } from '../utils/entitiesManager'

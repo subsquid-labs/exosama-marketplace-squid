@@ -1,4 +1,4 @@
-import { LogHandlerContext } from '@belopash/evm-processor'
+import { LogHandlerContext } from '@subsquid/evm-processor'
 import { Store } from '@subsquid/typeorm-store'
 import assert from 'assert'
 import { ERC721Contract } from '../model'
