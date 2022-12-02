@@ -15,7 +15,7 @@ const database = new TypeormDatabase()
 const processor = new EvmBatchProcessor()
   .setBlockRange({ from: 15584000 })
   .setDataSource({
-    archive: 'https://eth-stage1.archive.subsquid.io',
+    archive: 'https://eth.archive.subsquid.io',
     chain: assertNotNull(process.env.ETH_CHAIN_NODE),
   })
   .addLog(config.EXOSAMA_ADDRESS, {
