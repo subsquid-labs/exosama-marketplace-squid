@@ -20,7 +20,7 @@ const processor = new EvmBatchProcessor()
   .setBlockRange({ from: 15584000 })
   .setDataSource({
     archive: 'https://eth.archive.subsquid.io',
-    chain: assertNotNull(process.env.ETH_CHAIN_NODE),
+    chain: process.env.ETH_CHAIN_NODE ?? 'https://rpc.ankr.com/eth',
   })
   .addLog(config.EXOSAMA_ADDRESS, {
     filter: [
