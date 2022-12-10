@@ -70,7 +70,7 @@ async function handleEvmLog(
 ) {
   const evmLog = ctx.evmLog
   const contractAddress = evmLog.address.toLowerCase()
-  ctx.log.info(evmLog)
+  //ctx.log.info(evmLog)
   switch (evmLog.topics[0]) {
     case exosamaCollection.events.Transfer.topic:
       await erc721handleTransfer(ctx)
