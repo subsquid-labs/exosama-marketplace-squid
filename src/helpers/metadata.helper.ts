@@ -187,6 +187,7 @@ async function get721ContractUri(
   let contractURI
   try {
     contractURI = await contractAPI.contractURI()
+    ctx.log.info(`[API] Fetched contractURI of ${entity.id}`)
   } catch {
     ctx.log.warn(`[API] Error during fetch contractURI of ${entity.id}`)
     return
@@ -206,6 +207,7 @@ async function get721TokenUri(
   let tokenURI
   try {
     tokenURI = await contractAPI.tokenURI(BigNumber.from(entity.numericId))
+    ctx.log.info(`[API] Fetched tokenURI of ${entity.id}`)
   } catch (err) {
     ctx.log.warn(`[API] Error during fetch tokenURI of ${entity.id}\n${err}`)
     return
