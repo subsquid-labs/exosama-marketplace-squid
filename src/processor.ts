@@ -1,5 +1,9 @@
 import { Store, TypeormDatabase } from '@subsquid/typeorm-store'
-import { assertNotNull, EvmBatchProcessor, LogHandlerContext } from '@subsquid/evm-processor'
+import {
+  assertNotNull,
+  EvmBatchProcessor,
+  LogHandlerContext,
+} from '@subsquid/evm-processor'
 import {
   erc721handleTransfer,
   handleContractUri,
@@ -7,7 +11,7 @@ import {
   handleUriAll,
 } from './mappings'
 import { saveAll } from './utils/entitiesManager'
-import * as exosamaCollection from './abi/exosama-collection'
+import * as exosamaCollection from './abi/ExosamaCollection'
 import * as config from './utils/config'
 import { updateAllMetadata } from './helpers/metadata.helper'
 
@@ -16,15 +20,15 @@ const processor = new EvmBatchProcessor()
   .setBlockRange({ from: 15584000 })
   .setDataSource({
     archive: 'https://eth.archive.subsquid.io',
-    chain: assertNotNull(process.env.ETH_CHAIN_NODE),
+    chain: process.env.ETH_CHAIN_NODE ?? 'https://rpc.ankr.com/eth',
   })
   .addLog(config.EXOSAMA_ADDRESS, {
     filter: [
       [
-        exosamaCollection.events['Transfer(address,address,uint256)'].topic,
-        exosamaCollection.events['URI(uint256)'].topic,
-        exosamaCollection.events['URIAll()'].topic,
-        exosamaCollection.events['ContractURI()'].topic,
+        exosamaCollection.events.Transfer.topic,
+        exosamaCollection.events.URI.topic,
+        exosamaCollection.events.URIAll.topic,
+        exosamaCollection.events.ContractURI.topic,
       ],
     ],
     data: {
@@ -66,17 +70,18 @@ async function handleEvmLog(
 ) {
   const evmLog = ctx.evmLog
   const contractAddress = evmLog.address.toLowerCase()
+  //ctx.log.info(evmLog)
   switch (evmLog.topics[0]) {
-    case exosamaCollection.events['Transfer(address,address,uint256)'].topic:
+    case exosamaCollection.events.Transfer.topic:
       await erc721handleTransfer(ctx)
       break
-    case exosamaCollection.events['URI(uint256)'].topic:
+    case exosamaCollection.events.URI.topic:
       await handleUri(ctx)
       break
-    case exosamaCollection.events['URIAll()'].topic:
+    case exosamaCollection.events.URIAll.topic:
       await handleUriAll(ctx)
       break
-    case exosamaCollection.events['ContractURI()'].topic:
+    case exosamaCollection.events.ContractURI.topic:
       await handleContractUri(ctx)
       break
     default:
