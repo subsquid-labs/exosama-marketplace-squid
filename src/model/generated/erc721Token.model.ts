@@ -7,49 +7,49 @@ import {Metadata} from "./metadata.model"
 
 @Entity_()
 export class ERC721Token {
-  constructor(props?: Partial<ERC721Token>) {
-    Object.assign(this, props)
-  }
+    constructor(props?: Partial<ERC721Token>) {
+        Object.assign(this, props)
+    }
 
-  @PrimaryColumn_()
-  id!: string
+    @PrimaryColumn_()
+    id!: string
 
-  @Index_()
-  @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
-  numericId!: bigint
+    @Index_()
+    @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
+    numericId!: bigint
 
-  @Column_("text", {nullable: false})
-  ownerId!: string
+    @Column_("text", {nullable: false})
+    ownerId!: string
 
-  @Index_()
-  @ManyToOne_(() => ERC721Owner, {nullable: true})
-  owner!: ERC721Owner
+    @Index_()
+    @ManyToOne_(() => ERC721Owner, {nullable: true})
+    owner!: ERC721Owner
 
-  @Column_("text", {nullable: true})
-  tokenUri!: string | undefined | null
+    @Column_("text", {nullable: true})
+    tokenUri!: string | undefined | null
 
-  @Index_()
-  @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
-  updatedAt!: bigint
+    @Index_()
+    @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
+    updatedAt!: bigint
 
-  @Index_()
-  @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
-  createdAt!: bigint
+    @Index_()
+    @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
+    createdAt!: bigint
 
-  @OneToMany_(() => ERC721Transfer, e => e.token)
-  transfers!: ERC721Transfer[]
+    @OneToMany_(() => ERC721Transfer, e => e.token)
+    transfers!: ERC721Transfer[]
 
-  @Column_("text", {nullable: false})
-  contractId!: string
+    @Column_("text", {nullable: false})
+    contractId!: string
 
-  @Index_()
-  @ManyToOne_(() => ERC721Contract, {nullable: true})
-  contract!: ERC721Contract
+    @Index_()
+    @ManyToOne_(() => ERC721Contract, {nullable: true})
+    contract!: ERC721Contract
 
-  @Column_("text", {nullable: true})
-  metadataId!: string | undefined | null
+    @Column_("text", {nullable: true})
+    metadataId!: string | undefined | null
 
-  @Index_()
-  @ManyToOne_(() => Metadata, {nullable: true})
-  metadata!: Metadata | undefined | null
+    @Index_()
+    @ManyToOne_(() => Metadata, {nullable: true})
+    metadata!: Metadata | undefined | null
 }

@@ -5,7 +5,7 @@ import {
   ERC721Token,
   ERC721Transfer,
 } from '../model'
-import * as exosamaCollection from '../abi/exosama-collection'
+import * as exosamaCollection from '../abi/ExosamaCollection'
 import {
   ERC721contracts,
   ERC721owners,
@@ -25,8 +25,7 @@ export async function erc721handleTransfer(
   const { evmLog, transaction, block } = ctx
   const contractAddress = evmLog.address.toLowerCase() as string
   const contractAPI = new exosamaCollection.Contract(ctx, contractAddress)
-  const data =
-    exosamaCollection.events['Transfer(address,address,uint256)'].decode(evmLog)
+  const data = exosamaCollection.events.Transfer.decode(evmLog)
   // ctx.log.info(block)
   // ctx.log.info(data)
   const numericId = data.tokenId.toBigInt()

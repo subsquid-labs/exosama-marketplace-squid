@@ -13,7 +13,7 @@ import {
   ERC721tokens,
   metadatas,
 } from '../utils/entitiesManager'
-import * as erc721 from '../abi/exosama-collection'
+import * as erc721 from '../abi/ExosamaCollection'
 import { CONTRACT_API_BATCH_SIZE, IPFS_API_BATCH_SIZE } from '../utils/config'
 
 export const BASE_URL = 'https://moonsama.mypinata.cloud/'
@@ -206,8 +206,8 @@ async function get721TokenUri(
   let tokenURI
   try {
     tokenURI = await contractAPI.tokenURI(BigNumber.from(entity.numericId))
-  } catch {
-    ctx.log.warn(`[API] Error during fetch tokenURI of ${entity.id}`)
+  } catch (err) {
+    ctx.log.warn(`[API] Error during fetch tokenURI of ${entity.id}\n${err}`)
     return
   }
   if (
