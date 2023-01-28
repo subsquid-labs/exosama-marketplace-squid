@@ -2,7 +2,7 @@ version: "3"
 
 services:
   db:
-    image: postgres:14.4
+    image: postgres:15.1
     environment:
       POSTGRES_DB: squid
       POSTGRES_PASSWORD: postgres
